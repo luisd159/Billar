@@ -9,30 +9,21 @@ public class GameManager : MonoBehaviour
     LineRenderer line;
     public Vector2 mauspos;
     public Vector2 bolapos;
+    public PlayerState playerState;
     // Start is called before the first frame update
     void Start()
     {
         line = this.GetComponent<LineRenderer>();
+        line.startWidth = 0f;
+        line.endWidth = 0f;
     }
 
     // Update is called once per frame
 
     
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "ball")
-        {
-            Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-        }
-
-    }
 
 
-
-    private void OnMouseDown()
-    {
-    }
     void OnMouseDrag()
     {
         mauspos =Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -42,8 +33,6 @@ public class GameManager : MonoBehaviour
         float sx = Mathf.Cos(Angle) * 1f;
         float sy = Mathf.Sin(Angle) * 1f;
         Vector2 stick = new Vector2(sx, sy);
-
-        Debug.Log((stick*10-stick).magnitude);
         line.SetPosition(0, bolapos + (stick*10) + (distance * 0.2f));
         line.SetPosition(1, bolapos + stick + (distance * 0.2f));
         line.startWidth=0.2f;
@@ -62,5 +51,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+
+    public enum PlayerState
+    {
+        player1,
+        player2,
+        pause
+    }
 
 }
