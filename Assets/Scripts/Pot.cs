@@ -18,7 +18,6 @@ public class Pot : MonoBehaviour
         {
             Ball b = collision.gameObject.GetComponent<Ball>();
             GameManager.instance.pot(b);
-            Destroy(collision.gameObject);
         }
 
     }

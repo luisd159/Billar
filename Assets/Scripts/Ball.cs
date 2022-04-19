@@ -6,6 +6,7 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rigbod;
     public int number;
+    public bool potted;
     // Start is called before the first frame update
     void Start()
     {
