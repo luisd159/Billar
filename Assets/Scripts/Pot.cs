@@ -7,16 +7,17 @@ public class Pot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("aaaaa");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log("Bruh");
-        collision.gameObject.GetComponent<SpriteRenderer>().color = Color.blue;
+
 
         if (collision.gameObject.tag == "ball")
         {
+            Ball b = collision.gameObject.GetComponent<Ball>();
+            GameManager.instance.pot(b);
             Destroy(collision.gameObject);
         }
 
