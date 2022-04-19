@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    private Rigidbody2D rigbod;
+    public Rigidbody2D rigbod;
     public int number;
     // Start is called before the first frame update
     void Start()
@@ -15,10 +15,5 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (rigbod.velocity.magnitude==0)
-        {
-
-            GameManager.instance.afterShot();
-        }
     }
 }
