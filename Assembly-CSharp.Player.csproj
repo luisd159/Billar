@@ -58,8 +58,8 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Pot.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
-    <Compile Include="Assets\Scripts\Ball.cs" />
     <Compile Include="Assets\Scripts\EndScreen.cs" />
+    <Compile Include="Assets\Scripts\Ball.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

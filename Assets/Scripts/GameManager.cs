@@ -68,32 +68,40 @@ public class GameManager : MonoBehaviour
                 afterShot();
             }
         }
+        if (player == PlayerState.dragball)
+        {
+            canPlace = true;
+            mauspos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 bolpos = new Vector3(mauspos.x, mauspos.y, -5);
+            cueball.GetComponent<Transform>().position = bolpos;
+            for (int i = 1; i < 16; i++)
+            {
+
+                if (balls[i].col.IsTouching(cueball.col) || !tablecol.IsTouching(cueball.col))
+                {
+                    canPlace = false;
+                }
+            }
+        }
     }
 
     private void OnMouseDown()
     {
         if (player == PlayerState.dragball)
         {
-            canPlace = true;
-            mauspos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 m1 = mauspos + new Vector2(1, 1);
-            Vector2 m2 = mauspos + new Vector2(-1, 1);
-            Vector2 m3 = mauspos + new Vector2(-1, -1);
-            Vector2 m4 = mauspos + new Vector2(1, -1);
-            for (int i = 1; i < 16; i++)
-            {
+            Debug.Log("Hello World");
 
-                if (balls[i].col.bounds.Contains(m1) || balls[i].col.bounds.Contains(m2) || balls[i].col.bounds.Contains(m3) || balls[i].col.bounds.Contains(m4) || !tablecol.bounds.Contains(mauspos))
-                {
-                    canPlace = false;
-                }
-            }
-            Debug.Log("can place? "+ tablecol.bounds.extents);
 
             if (canPlace)
             {
-                cueball.col.enabled = true;
+
+                cueball.col.isTrigger = false;
                 player = lastPlayer;
+                canPlace = true;
+            }
+            else
+            {
+                turn.text = "Can't place cue ball there";
             }
         }
         
@@ -156,7 +164,7 @@ public class GameManager : MonoBehaviour
         if (pottedWrong)
         {
             player = PlayerState.dragball;
-            cueball.col.enabled = false;
+            cueball.col.isTrigger = true;
             if (lastPlayer == PlayerState.player1)
             {
                 turn.text = "Player 2 Drop Ball";
