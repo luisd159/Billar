@@ -120,14 +120,14 @@ public class GameManager : MonoBehaviour
             float sx = Mathf.Cos(Angle) * 1f;
             float sy = Mathf.Sin(Angle) * 1f;
             Vector2 stick = new Vector2(sx, sy);
-            line.SetPosition(0, bolapos + (stick * 10) + (distance * 0.2f));
-            line.SetPosition(1, bolapos + stick + (distance * 0.2f));
+            line.SetPosition(0, new Vector3((bolapos + (stick * 10) + (distance * 0.2f)).x, (bolapos + (stick * 10) + (distance * 0.2f)).y,-6));
+            line.SetPosition(1, new Vector3((bolapos + stick + (distance * 0.2f)).x, (bolapos + stick + (distance * 0.2f)).y, -6));
             line.startWidth = 0.2f;
             line.endWidth = 0.1f;
-            shotLine.startWidth = 0.075f;
-            shotLine.endWidth = 0.075f;
-            shotLine.SetPosition(0, bolapos);
-            shotLine.SetPosition(1, bolapos - distance);
+            shotLine.startWidth = 0.05f;
+            shotLine.endWidth = 0.05f;
+            shotLine.SetPosition(0, new Vector3(bolapos.x,bolapos.y,-6));
+            shotLine.SetPosition(1, new Vector3((bolapos-distance).x, (bolapos - distance).y, -6));
             Color stickColor = Color.black;
             if (player==PlayerState.player1)
             {
