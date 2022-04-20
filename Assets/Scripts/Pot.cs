@@ -11,7 +11,6 @@ public class Pot : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Bruh");
 
 
         if (collision.gameObject.tag == "ball")
