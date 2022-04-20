@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -26,14 +25,12 @@ public class GameManager : MonoBehaviour
     public int[] score = new int[] { 0, 0 };
     public bool pottedWrong;
     public Text[] playText = new Text[2];
-    public bool canPlace = false;
-    public Collider2D tablecol;
 
     // Start is called before the first frame update
     void Start()
     {
         scorePos = new Vector2[] {new Vector2(-10,0), new Vector2(-22.78f,7), new Vector2(-22.78f,5), new Vector2(-22.78f,3), new Vector2(-22.78f,1), new Vector2(-22.78f,-1), new Vector2(-22.78f,-3),
-         new Vector2(-22.78f,-5), new Vector2(0,-12), new Vector2(22.78f,7), new Vector2(22.78f,5), new Vector2(22.78f,3), new Vector2(22.78f,1), new Vector2(22.78f,-1), new Vector2(22.78f,-3),  new Vector2(22.78f,-5)};
+         new Vector2(-22.78f,-5), new Vector2(0,-12), new Vector2(22.78f,7), new Vector2(22.78f,5), new Vector2(22.78f,3), new Vector2(22.78f,1), new Vector2(22.78f,-1), new Vector2(22.78f,-3) };
 
 
         firstPot = false;
@@ -64,6 +61,7 @@ public class GameManager : MonoBehaviour
             }
             if (endTurn)
             {
+                Debug.Log("Turn ended");
                 //cuando ya todas están frenadas, afterShot es pa saber qué pasó ese turno
                 afterShot();
             }
@@ -85,6 +83,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     private void OnMouseDown()
     {
         if (player == PlayerState.dragball)
@@ -108,10 +107,16 @@ public class GameManager : MonoBehaviour
     }
 
 
+=======
+    
+>>>>>>> parent of 80f2be96 (puta mierda)
 
     void OnMouseDrag()
     {
-        if (player != PlayerState.pause && player !=PlayerState.dragball)
+
+
+        //human made horrors beyond guaji comprehension
+        if (player != PlayerState.pause)
         {
             mauspos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             bolapos = cueball.GetComponent<Transform>().position;
@@ -141,26 +146,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnMouseUp()
-    {
-        if (player != PlayerState.pause && player!=PlayerState.dragball)
-        {
-            player = PlayerState.pause;
-            mauspos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            bolapos = cueball.GetComponent<Transform>().position;
-            Vector2 launchv = bolapos - mauspos;
-            cueball.rigbod.AddForce(launchv * 1.5f, ForceMode2D.Impulse);
-            line.startWidth = 0f;
-            line.endWidth = 0f;
-            shotLine.startWidth = 0;
-            shotLine.endWidth = 0;
-            turn.text = "Wait...";
-        }
-
-    }
     public void afterShot()
     {
 
+<<<<<<< HEAD
         if (pottedWrong)
         {
             player = PlayerState.dragball;
@@ -175,6 +164,10 @@ public class GameManager : MonoBehaviour
             }
         }
         else if(!potted)
+=======
+        
+        if(!potted || pottedWrong)
+>>>>>>> parent of 80f2be96 (puta mierda)
         {
             if (lastPlayer == PlayerState.player1)
             {
@@ -204,14 +197,15 @@ public class GameManager : MonoBehaviour
                 turn.text = "Player 2's Turn";
             }
         }
-        potted = false;
-        pottedWrong = false;
     }
 
 
     public void pot(Ball ball)
     {
         potted = true;
+        pottedWrong = false;
+        int[] solids = new int[] { 1, 2, 3, 4, 5, 6, 7 };
+        int[] striped = new int[] { 9, 10, 11, 12, 13, 14, 15 };
         int type=0;
         switch (ball.number) //se define el tipo de bola según su número
         {
@@ -243,8 +237,8 @@ public class GameManager : MonoBehaviour
                 break;
         }
         
-        //se define quién emboca qué, según el type
-        if (!firstPot && type> 0)
+        //se define quién emboca qué
+        if (!firstPot)
         {
             firstPot = true;
             switch (type)
@@ -288,117 +282,76 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
+
+            Debug.Log(pB);
         }
 
-        switch (type)//se mira qué se hace con la bola
+        switch (type)
         {
             case 0:
                 ball.GetComponent<Transform>().position = scorePos[ball.number];
                 ball.rigbod.velocity = new Vector2(0, 0);
-                pottedWrong = true;
                 break;
             case 1:
-                if (lastPlayer==PlayerState.player1)
+                if (lastPlayer==PlayerState.player1 && pB[0,0])
                 {
-                    if (pB[0,0])
-                    {
-                        score[0]++;
-                    }
-                    else
-                    {
-                        pottedWrong = true;
-                        score[1]++;
-                    }
-                    
+                    score[0]++;
 
                 }
                 else
                 {
-                    if (pB[1,0])
-                    {
-                        score[1]++;
-                    }
-                    else
-                    {
-                        pottedWrong = true;
-                        score[0]++;
-                    }
+                    pottedWrong = true;
+                    score[1]++;
                 }
                 break;
             case 2:
-                if (lastPlayer == PlayerState.player1)
+                if (lastPlayer == PlayerState.player1 && pB[0, 1])
                 {
-                    if (pB[0, 1])
-                    {
-                        score[0]++;
-                    }
-                    else
-                    {
-                        pottedWrong = true;
-                        score[1]++;
-                    }
-
-
+                    score[0]++;
                 }
                 else
                 {
-                    if (pB[1, 1])
-                    {
-                        score[1]++;
-                    }
-                    else
-                    {
-                        pottedWrong = true;
-                        score[0]++;
-                    }
+                    pottedWrong = true;
+                    score[1]++;
                 }
                 break;
-            case 3://win condition
-                /*1: jugador 1 gana bien
-                 *2: jugador 2 gana bien 
-                 *3: jugador 1 gana pq el 2 es manco
-                 *4: jugador 2 gana pq el 1 es manco
-                 */
-                if (lastPlayer==PlayerState.player1)
-                {
-                    if (score[0]<7)
-                    {
-                        PlayerPrefs.SetInt("Result", 4);
-                    }
-                    else
-                    {
-                        PlayerPrefs.SetInt("Result", 1);
-                    }
-                }
-                else
-                {
-                    if (score[1] < 7)
-                    {
-                        PlayerPrefs.SetInt("Result", 3);
-                    }
-                    else
-                    {
-                        PlayerPrefs.SetInt("Result", 2);
-                    }
-                }
-                SceneManager.LoadScene("End");
+            case 3:
+                //perdedorrrrrrrrrrrrrrr
                 break;
 
 
             default:
                 break;
         }
+        
 
-
+        //se saca de la lista antes de destroy pq si no ñaca
         if (ball.number>0)
         {
             ball.rigbod.constraints = RigidbodyConstraints2D.FreezePosition;
             ball.GetComponent<Transform>().position = scorePos[ball.number];
-            ball.col.enabled = false;
         }
         
     }
-    
+    private void OnMouseUp()
+    {
+
+        //pause es pa no spammear el palo
+        if (player != PlayerState.pause)
+        {
+            player = PlayerState.pause;
+            mauspos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            bolapos = cueball.GetComponent<Transform>().position;
+            Vector2 launchv = bolapos - mauspos;
+            cueball.rigbod.AddForce(launchv * 1.5f, ForceMode2D.Impulse);
+            line.startWidth = 0f;
+            line.endWidth = 0f;
+            shotLine.startWidth = 0;
+            shotLine.endWidth = 0;
+            turn.text = "Wait...";
+        }
+        
+    }
 
 
     public enum PlayerState
